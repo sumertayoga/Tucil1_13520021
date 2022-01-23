@@ -3,6 +3,70 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class tes {
+    public static void printMap(int idxBarisAwal, int idxKolomAwal, int pertambahanKolom, int pertambahanBaris, int baris, int kolom, char[][] map, int panjang){
+        int i = 0;
+        int j = 0;
+        int length = 0;
+        while(i < baris){
+            j = 0;
+            while(j < kolom){
+                if(i == idxBarisAwal && j == idxKolomAwal && length < panjang){
+                    System.out.print(map[i][j] + " ");
+                    idxBarisAwal += pertambahanBaris;
+                    idxKolomAwal += pertambahanKolom;
+                    length++;
+                }
+                else{
+                    System.out.print("- ");
+                }
+                j++;
+            }
+            i++;
+            System.out.println();
+        }
+    }
+
+    private static Boolean checking(char[][] map, int idxBaris, int idxKolom ,String target, int pertambahanKolom, int pertambahanBaris, int panjang, int baris, int kolom){
+        boolean sama = true;
+        int length = 2;
+        while(sama && length < panjang){
+            if(map[idxBaris+pertambahanBaris*length][idxKolom+pertambahanKolom*length] != target.charAt(length)){
+                sama = false;
+            }
+            else{
+                length++;
+            }
+        }
+        if(length == panjang){
+            printMap(idxBaris, idxKolom, pertambahanKolom, pertambahanBaris, baris, kolom, map, target.length());
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
+    public static void puzelFinding(int baris, int kolom, String target, char[][] map){
+        int i = 0;
+        int j = 0;
+        boolean notFinish = true;
+        while(notFinish && i < baris){
+            j = 0;
+            while(notFinish && j < kolom){
+                if (map[i][j] == target.charAt(0)){
+                    if (kolom - j >= target.length()-1 && map[i][j+1] == target.charAt(1)){
+                        notFinish = checking(map, i, j, target, 1, 0, target.length(), baris, kolom);
+                    }
+                    else if (baris - i >= target.length()-1 && map[i+1][j] == target.charAt((1))){
+                        notFinish = checking(map, i, j, target, 0, 1, target.length(), baris, kolom);
+                    }
+                }
+                j++;
+            }
+            i++;
+        }
+    }
+
     public static void main(String[] args) throws IOException{
         Scanner obj = new Scanner(new File("../test/teks.txt"));
         int baris = 0;
@@ -23,26 +87,52 @@ public class tes {
 
         
         obj = new Scanner(new File("../test/teks.txt"));
-        String[][] matriks = new String[baris][kolom];
+        char[][] matriks = new char[baris][kolom];
         for(int i = 0; i < baris; i++){
             for(int j = 0; j < kolom; j++){
                 if(obj.hasNext()){
-                    matriks[i][j] = obj.next();
-                    System.out.print(matriks[i][j]);
+                    matriks[i][j] = obj.next().charAt(0);
                 }
             }
-            System.out.println();
         }
         line = obj.nextLine();
         line = obj.nextLine();
         String[] listWord = new String[listLength];
         for(int i = 0; i < listLength; i++){
             listWord[i] = obj.nextLine();
-            System.out.println(listWord[i]);
         }
         obj.close();
-        
+        puzelFinding(baris, kolom, listWord[5], matriks);
 
+        /*int i = 0;
+        int j = 0;
+        boolean notFinish = true;
+        while(notFinish && i < baris){
+            j = 0;
+            while(notFinish && j < kolom){
+                if (matriks[i][j] == listWord[4].charAt(0)){
+                    if (matriks[i][j+1] == listWord[4].charAt(1)){
+                        notFinish = checking(matriks, i, j, listWord[4], 1, 0, listWord[4].length(), baris, kolom);
+                        boolean sama = true;
+                        int l = 2;
+                        while (sama && l < 7){
+                            if(matriks[i][j+l] != listWord[4].charAt(l)){
+                                sama = false;
+                            }
+                            else{
+                                l++;
+                            }
+                        }
+                        if(l == 7){
+                            notFinish = false;
+                            printMap(i, j, 1, 0, baris, kolom, matriks, listWord[4].length());
+                        }
+                    }
+                }
+                j++;
+            }
+            i++;
+        }*/
     }
     
 }
