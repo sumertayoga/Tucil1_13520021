@@ -38,7 +38,24 @@ public class tes {
             }
         }
         if(length == panjang){
-            printMap(idxBaris, idxKolom, pertambahanKolom, pertambahanBaris, baris, kolom, map, target.length());
+            if(pertambahanBaris < 0 && pertambahanKolom < 0){
+                printMap(idxBaris + pertambahanBaris*target.length() + 1, idxKolom + pertambahanKolom*target.length() + 1, Math.abs(pertambahanKolom), Math.abs(pertambahanBaris), baris, kolom, map, target.length());
+            }
+            else if(pertambahanBaris < 0 && pertambahanKolom != 0){
+                printMap(idxBaris + pertambahanBaris*target.length() + 1, idxKolom + pertambahanKolom*target.length()-1, -1*(pertambahanKolom), -1*(pertambahanBaris), baris, kolom, map, target.length());
+            }
+            else if(pertambahanKolom < 0 && pertambahanBaris != 0){
+                printMap(idxBaris + pertambahanBaris*target.length()-1, idxKolom + pertambahanKolom*target.length() + 1, -1*(pertambahanKolom), -1*(pertambahanBaris), baris, kolom, map, target.length());
+            }
+            else if(pertambahanKolom < 0 && pertambahanBaris == 0){
+                printMap(idxBaris , idxKolom + pertambahanKolom*target.length() + 1, -1*(pertambahanKolom), -1*(pertambahanBaris), baris, kolom, map, target.length());
+            }
+            else if(pertambahanBaris < 0 && pertambahanKolom == 0){
+                printMap(idxBaris + pertambahanBaris*target.length() + 1, idxKolom, -1*(pertambahanKolom), -1*(pertambahanBaris), baris, kolom, map, target.length());
+            }
+            else{     
+               printMap(idxBaris, idxKolom, pertambahanKolom, pertambahanBaris, baris, kolom, map, target.length()); 
+            }
             return false;
         }
         else{
@@ -54,11 +71,37 @@ public class tes {
             j = 0;
             while(notFinish && j < kolom){
                 if (map[i][j] == target.charAt(0)){
+                    //Ke kanan
                     if (kolom - j >= target.length()-1 && map[i][j+1] == target.charAt(1)){
                         notFinish = checking(map, i, j, target, 1, 0, target.length(), baris, kolom);
                     }
-                    else if (baris - i >= target.length()-1 && map[i+1][j] == target.charAt((1))){
+                    //Ke bawah
+                    else if (baris - i >= target.length()-1 && map[i+1][j] == target.charAt(1)){
                         notFinish = checking(map, i, j, target, 0, 1, target.length(), baris, kolom);
+                    }
+                    //Ke kiri
+                    else if (j >= target.length()-1 && map[i][j-1] == target.charAt(1)){
+                        notFinish = checking(map, i, j, target, -1, 0, target.length(), baris, kolom);
+                    }
+                    //Ke atas
+                    else if (i >= target.length()-1 && map[i-1][j] == target.charAt(1)){
+                        notFinish = checking(map, i, j, target, 0, -1, target.length(), baris, kolom);
+                    }
+                    //Diagonal kanan turun
+                    else if (kolom - j >= target.length()-1 && baris - i >= target.length()-1 && map[i+1][j+1] == target.charAt(1)){
+                        notFinish = checking(map, i, j, target, 1, 1, target.length(), baris, kolom);
+                    }
+                    //Diagonal kiri naik
+                    else if (j >= target.length()-1 && i >= target.length()-1 && map[i-1][j-1] == target.charAt(1)){
+                        notFinish = checking(map, i, j, target, -1, -1, target.length(), baris, kolom);
+                    }
+                    //Diagonal kanan naik
+                    else if (kolom - j >= target.length()-1 && i >= target.length()-1 && map[i-1][j+1] == target.charAt(1)){
+                        notFinish = checking(map, i, j, target, 1, -1, target.length(), baris, kolom);
+                    }
+                    //Diagonal kiri turun
+                    else if (j >= target.length()-1 && baris - i >= target.length()-1 && map[i+1][j-1] == target.charAt(1)){
+                        notFinish = checking(map, i, j, target, -1, 1, target.length(), baris, kolom);
                     }
                 }
                 j++;
@@ -102,7 +145,11 @@ public class tes {
             listWord[i] = obj.nextLine();
         }
         obj.close();
-        puzelFinding(baris, kolom, listWord[5], matriks);
+        //puzelFinding(baris, kolom, listWord[7], matriks);
+        for(int i = 0; i < 8; i++){
+            System.out.println("Berikut adalah solusi puzzle untuk kata ke-" + (i+1));
+            puzelFinding(baris, kolom, listWord[i], matriks);
+        }
 
         /*int i = 0;
         int j = 0;
