@@ -184,6 +184,11 @@ public class puzzle {
         long endTime = System.currentTimeMillis();
         System.out.println("Jumlah total perbandingan dari semua kata ada sebanyak " + totalPerbandingan + " kali");
         System.out.println("Waktu eksekusi program adalah " + (endTime-startTime) + " ms");
+
+        Scanner last = new Scanner(System.in);
+        System.out.println("Klik enter untuk mengakhiri program.");
+        String terkahir = last.nextLine();
+        last.close();
     }
     
 }
