@@ -137,7 +137,7 @@ public class puzzle {
         Scanner inputFile = new Scanner(System.in);
         System.out.println("Masukkan Nama File (ex: small1.txt): ");
         String namaFile = inputFile.nextLine();
-        inputFile.close();
+    
 
         //Mencari banyak baris, kolom, dan banyak kata
         Scanner obj = new Scanner(new File("../test/" + namaFile));
@@ -185,10 +185,8 @@ public class puzzle {
         System.out.println("Jumlah total perbandingan dari semua kata ada sebanyak " + totalPerbandingan + " kali");
         System.out.println("Waktu eksekusi program adalah " + (endTime-startTime) + " ms");
 
-        Scanner last = new Scanner(System.in);
-        System.out.println("Klik enter untuk mengakhiri program.");
-        String terkahir = last.nextLine();
-        last.close();
+        System.out.println("Klik Enter untuk mengakhiri program.");
+        namaFile = inputFile.nextLine();
+        inputFile.close();
     }
-    
 }
